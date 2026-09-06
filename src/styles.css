@@ -10,6 +10,8 @@
   themes: all;
 }
 
+@import 'tailwind-animations';
+
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/MontserratAlternates-Medium.ttf') format('truetype');

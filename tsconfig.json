@@ -1,6 +1,14 @@
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
 /* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
+  "baseUrl": "./",
+  "paths": {
+    "@auth/*": ["src/app/auth/*"],
+    "@products/*": ["src/app/products/*"],
+    "@store-front/*": ["src/app/store-front/*"],
+    "@shared/*": ["src/app/shared/*"]
+  },
+
   "compileOnSave": false,
   "compilerOptions": {
     "noImplicitOverride": true,
