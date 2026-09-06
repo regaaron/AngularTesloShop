@@ -9,3 +9,13 @@
  @plugin "daisyui" {
   themes: all;
 }
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/MontserratAlternates-Medium.ttf') format('truetype');
+}
+
+
+@theme {
+  --font-montserrat: 'Montserrat', sans-serif;
+}
