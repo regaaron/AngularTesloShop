@@ -6,7 +6,7 @@ import { ProductCard } from "../../../products/components/product-card/product-c
 import { ProductCarousel } from "../../../products/components/product-carousel/product-carousel";
 
 @Component({
-  imports: [ProductCard, ProductCarousel],
+  imports: [ProductCarousel],
   selector: 'app-product-page',
   templateUrl: './product-page.html',
 })
@@ -23,9 +23,6 @@ export class ProductPage {
       return this.productService.getProductByIdSlug(params.idSlug)
     }
   })
-
-  
-  // productIdSlug = 
 
 
 }
