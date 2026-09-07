@@ -3,9 +3,10 @@ import { ProductCard } from "../../../products/components/product-card/product-c
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ProductsService } from '../../../products/services/products-service';
 import { ProductResponse } from '../../../products/interfaces/product-response.interface';
+import { Pagination } from "../../../shared/components/pagination/pagination";
 
 @Component({
-  imports: [ProductCard],
+  imports: [ProductCard, Pagination],
   selector: 'app-home-page',
   templateUrl: './home-page.html',
 })
