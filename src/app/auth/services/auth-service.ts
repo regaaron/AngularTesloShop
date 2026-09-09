@@ -31,9 +31,9 @@ export class AuthService {
         return 'not-authenticated'
     })
 
-    user = computed(() => { this.user() })
+    user = computed(() =>  this._user() )
 
-    token = computed(() => this._token)
+    token = computed(() => this._token() )
 
     login(email: string, password: string): Observable<boolean> {
         return this.http.post<AuthResponse>(`${baseUrl}/auth/login`, {
