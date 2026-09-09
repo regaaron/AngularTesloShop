@@ -3,7 +3,7 @@ import { User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthResponse } from '../interfaces/auth-response.interface';
-import { Observable, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated'
 
@@ -30,7 +30,7 @@ export class AuthService {
 
     token = computed(() => this._token)
 
-    login(email:string, password:string): Observable<AuthResponse> {
+    login(email:string, password:string): Observable<boolean> {
         return this.http.post<AuthResponse>(`${baseUrl}/auth/login`,{
             password,
             email,
@@ -41,6 +41,13 @@ export class AuthService {
                 this._token.set(resp.token)
 
                 localStorage.setItem('token',resp.token)
+            }),
+            map(() => true),
+            catchError((error: any) =>{
+                this._user.set(null);
+                this._token.set(null)
+                this._authStatus.set('authenticated')
+                return of(false)
             })
         )
     }
