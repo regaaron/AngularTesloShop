@@ -70,7 +70,7 @@ export class AuthService {
         this._authStatus.set('not-authenticated')
         this._token.set(null)
         this._user.set(null)
-        localStorage.removeItem('token')
+        // localStorage.removeItem('token')
 
     }
 
