@@ -1,16 +1,56 @@
+<!--
+  product-card.component.html
+  Espera en el componente: product = input<Product>()
+  Pipe existente: productImage
+-->
 
-<div class="card bg-base-100 w-86 shadow-sm animate-fade-in">
-  <figure>
-    <img
-      [src]="product().images | productImage"
-      [alt]="product().title"
-      [routerLink]="['/product',product().slug]" />
-  </figure>
-  <div class="card-body">
-    <h2 class="card-title font-montserrat text-accent text-lg">{{ product().title }}</h2>
-    <p> {{ product().description | slice:0:70 }} ... </p>
-    <div class="card-actions justify-end">
-        <a class="btn btn-accent" [routerLink]="['/product',product().slug]">Ver Mas</a>
+<a
+  [routerLink]="['/product', product().slug]"
+  class="group relative block w-86 aspect-[4/5] overflow-hidden bg-[#151517]"
+  style="clip-path: polygon(0 14px, 14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%)"
+>
+  <!-- Imagen a sangre completa -->
+  <img
+    [src]="product().images | productImage"
+    [alt]="product().title"
+    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+    [class.opacity-40]="product().stock === 0"
+  />
+
+  <!-- Degradado inferior para legibilidad del texto -->
+  <div class="absolute inset-0 bg-gradient-to-t from-[#0D0D0F] via-[#0D0D0F]/10 to-transparent"></div>
+
+  <!-- Precio, esquina superior derecha -->
+  <span
+    class="absolute top-4 right-4 px-3 py-1 text-sm font-medium bg-[#0D0D0F]/80 text-[#E7E7E5] backdrop-blur-sm"
+    style="clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)"
+  >
+    ${{ product().price }}
+  </span>
+
+  <!-- Estado agotado -->
+  <span
+    *ngIf="product().stock === 0"
+    class="absolute top-4 left-4 px-3 py-1 text-xs font-medium border border-[#FF3B30]/50 text-[#FF3B30] bg-[#0D0D0F]/80"
+  >
+    Agotado
+  </span>
+
+  <!-- Info inferior -->
+  <div class="absolute bottom-0 left-0 right-0 p-5">
+    <p class="text-xs text-[#9AA0A6] mb-1">
+      {{ product().gender === 'men' ? 'Hombre' : product().gender === 'women' ? 'Mujer' : 'Unisex' }}
+    </p>
+    <h2 class="font-montserrat text-lg font-semibold text-[#E7E7E5] leading-snug">
+      {{ product().title }}
+    </h2>
+
+    <!-- "Ver detalle" que aparece al hover, sin botón redundante -->
+    <div class="mt-2 h-0 overflow-hidden group-hover:h-6 transition-[height] duration-300">
+      <span class="inline-flex items-center gap-1.5 text-sm text-[#E7E7E5]">
+        Ver detalle
+        <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+      </span>
     </div>
   </div>
-</div>
+</a>
