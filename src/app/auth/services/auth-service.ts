@@ -46,6 +46,18 @@ export class AuthService {
         )
     }
 
+    register(email:string, password:string,fullName:string){
+        return this.http.post<AuthResponse>(`${baseUrl}/auth/register`,{
+            password,
+            email,
+            fullName
+        }).pipe(
+            tap(resp => { this.handleAuthSuccess(resp)}),
+            map(() => true),
+            catchError((error: any) =>this.handleAuthError(error))
+        )
+    }
+
     chechStatus(): Observable<boolean> {
 
         const token = localStorage.getItem('token');
