@@ -5,13 +5,14 @@ import { environment } from '../../../environments/environment';
 import { AuthResponse } from '../interfaces/auth-response.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 type AuthStatus = 'checking' | 'authenticated' | 'not-authenticated'
 
 const baseUrl = environment.baseUrl
 @Service()
 export class AuthService {
-
+    router = inject(Router)
     private _authStatus = signal<AuthStatus>('checking')
     private _user = signal<User | null>(null);
     private _token = signal<string | null>(localStorage.getItem('token'))
@@ -34,6 +35,8 @@ export class AuthService {
     user = computed(() =>  this._user() )
 
     token = computed(() => this._token() )
+
+    isAdmin = computed(() => this._user()?.roles.includes('admin') ?? false)
 
     login(email: string, password: string): Observable<boolean> {
         return this.http.post<AuthResponse>(`${baseUrl}/auth/login`, {
@@ -83,6 +86,7 @@ export class AuthService {
         this._token.set(null)
         this._user.set(null)
         localStorage.removeItem('token')
+        // this.router.navigate(['/']);
     }
 
     private handleAuthSuccess({ token, user }: AuthResponse) {

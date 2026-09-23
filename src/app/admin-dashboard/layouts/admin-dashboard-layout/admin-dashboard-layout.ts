@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from "../../../../../node_modules/@angular/router/types/_router_module-chunk";
 import { AuthService } from '../../../auth/services/auth-service';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard-layout',
