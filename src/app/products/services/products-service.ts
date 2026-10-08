@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Service, signal } from '@angular/core';
+import { inject, Service, Signal, signal } from '@angular/core';
 import { Product, ProductResponse } from '../interfaces/product-response.interface';
 import { delay, Observable, of, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -13,6 +13,7 @@ interface Options{
 }
 @Service()
 export class ProductsService {
+    
     private http = inject(HttpClient)
     private productsCache = new Map<string,ProductResponse>()
 
@@ -47,6 +48,18 @@ export class ProductsService {
 
         return this.http.get<Product>(`${baseUrl}/products/${idSlug}`).pipe(
             tap((resp) => this.productCache.set(idSlug,resp))
+        )
+
+    }
+
+    getProductById(id: string): Observable<Product> {
+      
+        if(this.productCache.has(id)){
+            return of(this.productCache.get(id)!)
+        }
+
+        return this.http.get<Product>(`${baseUrl}/products/${id}`).pipe(
+            tap((resp) => this.productCache.set(id,resp))
         )
 
     }
