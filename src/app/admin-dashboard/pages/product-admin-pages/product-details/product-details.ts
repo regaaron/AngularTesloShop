@@ -15,6 +15,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class ProductDetails implements OnInit {
 
+
   ngOnInit(): void {
     this.setFomrValue(this.product())
   }
@@ -27,10 +28,12 @@ export class ProductDetails implements OnInit {
 
   product = input.required<Product>();
   wasSave = signal(false)
+  tempImagenes = signal<string[]>([])
+  ImageFileList: FileList|undefined = undefined
 
   fb = inject(FormBuilder)
   productService = inject(ProductsService)
-  router= inject(Router)
+  router = inject(Router)
 
   productForm = this.fb.group({
     title: ['', Validators.required],
@@ -65,19 +68,19 @@ export class ProductDetails implements OnInit {
     };
 
     console.log(productLike);
-    
-    if(this.product().id === 'new'){
+
+    if (this.product().id === 'new') {
       const product = await firstValueFrom(
         this.productService.createProduct(productLike)
       )
       this.router.navigate(['/admin/products', product.id])
 
-      
-    }else{
+
+    } else {
       await firstValueFrom(
         this.productService.updateProduct(this.product().id, productLike)
       );
-       
+
     }
 
     this.wasSave.set(true)
@@ -96,6 +99,18 @@ export class ProductDetails implements OnInit {
     } else {
       this.productForm.patchValue({ sizes: [...currentSizes, size] })
     }
+  }
+
+  onFilesChange(event: Event) {
+    const fileList = (event.target as HTMLInputElement).files
+    this.ImageFileList = fileList ?? undefined
+
+    const imageUrls = Array.from(fileList ?? [] ).map( 
+      (file) => URL.createObjectURL(file)
+
+  
+    )
+    this.tempImagenes.set(imageUrls)
   }
 
 
