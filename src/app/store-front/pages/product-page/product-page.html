@@ -1,23 +1,74 @@
 @if (productResource.isLoading()) {
-
     <div class="flex justify-center items-center h-screen">
-        <span class="loading loading-spinner loading-lg"></span>       
+        <span class="loading loading-spinner loading-lg"></span>
     </div>
 }
 
 @if (productResource.hasValue()) {
+    @let product = productResource.value();
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <!-- imagenes -->
-         <product-carousel [images]="productResource.value().images"/>
+    <section class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
 
-        <div>
-            <h2 class="text-2xl font-bold font-montserrat">{{productResource.value().title}}</h2>
-        </div>
-        <div class="divider">
-            <p>{{productResource.value().description}}
+        <!-- Imágenes -->
+        <product-carousel [images]="product.images" />
+
+        <!-- Información -->
+        <div class="flex flex-col gap-4">
+
+            <div class="flex flex-wrap gap-2">
+                <span class="badge badge-neutral">{{ product.gender | titlecase }}</span>
+                @for (tag of product.tags; track tag) {
+                    <span class="badge badge-outline">{{ tag }}</span>
+                }
+            </div>
+
+            <h1 class="text-3xl font-bold font-montserrat">{{ product.title }}</h1>
+
+            <p class="text-3xl font-semibold text-primary">
+                {{ product.price | currency }}
             </p>
-        </div>
 
-    </div>
+            <!-- Stock -->
+            @if (product.stock > 0) {
+                <span class="badge badge-success badge-soft">
+                    {{ product.stock }} disponibles
+                </span>
+            } @else {
+                <span class="badge badge-error badge-soft">Agotado</span>
+            }
+
+            <div class="divider my-1"></div>
+
+            <!-- Descripción -->
+            <div>
+                <h2 class="font-semibold mb-1">Descripción</h2>
+                <p class="text-base-content/70 leading-relaxed">
+                    {{ product.description }}
+                </p>
+            </div>
+
+            <!-- Tallas -->
+            @if (product.sizes.length > 0) {
+                <div>
+                    <h2 class="font-semibold mb-2">Tallas</h2>
+                    <div class="flex flex-wrap gap-2">
+                        @for (size of product.sizes; track size) {
+                            <button type="button" class="btn btn-outline btn-sm min-w-12">
+                                {{ size }}
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Acción -->
+            <button
+                type="button"
+                class="btn btn-primary btn-lg mt-4"
+                [disabled]="product.stock === 0"
+            >
+                Agregar al carrito
+            </button>
+        </div>
+    </section>
 }

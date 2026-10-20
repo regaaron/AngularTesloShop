@@ -4,9 +4,10 @@ import { ProductsService } from '../../../products/services/products-service';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ProductCard } from "../../../products/components/product-card/product-card";
 import { ProductCarousel } from "../../../products/components/product-carousel/product-carousel";
+import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 
 @Component({
-  imports: [ProductCarousel],
+  imports: [ProductCarousel,CurrencyPipe,TitleCasePipe],
   selector: 'app-product-page',
   templateUrl: './product-page.html',
 })
