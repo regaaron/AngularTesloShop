@@ -3,7 +3,7 @@ import { RouterLink } from "@angular/router";
 import { Product } from '../../interfaces/product-response.interface';
 import { SlicePipe } from '@angular/common';
 import { ProductImagePipe } from '../../pipes/product-image.pipe';
-import { environment } from '../../../../environments/environment.development';
+import { environment } from '../../../../environments/environment'
 
 
 const baseUrl = environment.baseUrl;
