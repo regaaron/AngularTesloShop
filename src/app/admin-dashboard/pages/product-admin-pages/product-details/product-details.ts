@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
 import { Product } from '../../../../products/interfaces/product-response.interface';
 import { ProductCarousel } from '../../../../products/components/product-carousel/product-carousel';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -34,6 +34,12 @@ export class ProductDetails implements OnInit {
   fb = inject(FormBuilder)
   productService = inject(ProductsService)
   router = inject(Router)
+  imagesToCarousel = computed(() =>{
+
+    const currentProductImages = [...this.product().images, ...this.tempImagenes()]
+    return currentProductImages
+
+  })
 
   productForm = this.fb.group({
     title: ['', Validators.required],
@@ -71,14 +77,14 @@ export class ProductDetails implements OnInit {
 
     if (this.product().id === 'new') {
       const product = await firstValueFrom(
-        this.productService.createProduct(productLike)
+        this.productService.createProduct(productLike,this.ImageFileList)
       )
       this.router.navigate(['/admin/products', product.id])
 
 
     } else {
       await firstValueFrom(
-        this.productService.updateProduct(this.product().id, productLike)
+        this.productService.updateProduct(this.product().id, productLike,this.ImageFileList)
       );
 
     }
